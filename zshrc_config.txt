@@ -76,6 +76,5 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-ALERTMANAGER_BASE_URL=http://alertmanager-emea
 # export PATH ="/Users/fsoussi/anaconda3/bin:$PATH"
 # export PATH="~/anaconda3/bin:$PATH"
