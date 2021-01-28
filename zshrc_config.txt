@@ -1,0 +1,81 @@
+HISTSIZE=999999999
+HISTFILESIZE=999999999
+SAVEHIST=$HISTSIZE
+
+prompt_anaconda() {
+  # Depending on the conda version, either might be set. This
+  # variant works even if both are set.
+  local _path=$CONDA_ENV_PATH$CONDA_PREFIX
+  if ! [ -z "$_path" ]; then
+    # config - can be overwritten in users' zshrc file.
+    set_default POWERLEVEL9K_ANACONDA_LEFT_DELIMITER "("
+    set_default POWERLEVEL9K_ANACONDA_RIGHT_DELIMITER ")"
+    "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$POWERLEVEL9K_ANACONDA_LEFT_DELIMITER$(basename $_path)$POWERLEVEL9K_ANACONDA_RIGHT_DELIMITER" 'PYTHON_ICON'
+    py_version=$(python -c 'import sys; print(str(sys.version_info[0])+"."+str(sys.version_info[1]))')
+    "$1_prompt_segment" "$0" "$2" "blue" "$DEFAULT_COLOR" "$py_version $POWERLEVEL9K_ANACONDA_LEFT_DELIMITER$(basename $_path)$POWERLEVEL9K_ANACONDA_RIGHT_DELIMITER" 'PYTHON_ICON'
+  fi
+}
+export ZSH="/Users/fsoussi/.oh-my-zsh"
+export PATH=/usr/local/bin:$PATH
+
+
+# ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context anaconda virtualenv dir vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator time)
+# POWERLEVEL9K_DISABLE_RPROMPT=true
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="↱"
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="↳ "
+
+plugins=(
+  git
+  docker
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  python
+  conda-zsh-completion
+)
+source ~/.bash_profile
+source $ZSH/oh-my-zsh.sh
+
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+
+# Example aliases
+alias myssh="ssh-add -k ~/.ssh/id_rsa"
+alias hist="history 1"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/fsoussi/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/fsoussi/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/fsoussi/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/fsoussi/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+ALERTMANAGER_BASE_URL=http://alertmanager-emea
+# export PATH ="/Users/fsoussi/anaconda3/bin:$PATH"
+# export PATH="~/anaconda3/bin:$PATH"
